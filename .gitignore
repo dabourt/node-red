@@ -1,0 +1,82 @@
+# Dependencies
+node_modules/
+
+# Environment and secrets (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.keystore
+*.jks
+secrets/
+.secrets/
+
+# Node-RED — encrypted flow credentials
+flows_cred.json
+**/flows_cred.json
+
+# Local overrides (put secrets here; keep settings.js generic)
+settings.local.js
+
+# Logs and debug
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime / cache
+.npm
+.cache/
+.parcel-cache/
+.turbo/
+*.tsbuildinfo
+
+# Executables and compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.app
+*.obj
+*.o
+*.a
+*.lib
+*.bin
+*.out
+*.class
+*.jar
+*.war
+*.wasm
+
+# Build / dist output
+dist/
+build/
+out/
+target/
+
+# OS overhead
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor / IDE overhead
+.idea/
+*.swp
+*.swo
+*~
+
+# Optional: uncomment if you store editor state you do not want in git
+# .vscode/

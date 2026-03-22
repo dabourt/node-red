@@ -1,0 +1,11 @@
+{
+  "name": "node-red-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node-red"
+  },
+  "dependencies": {
+    "node-red": "^1.1.3",
+    "node-red-dashboard": "^3.6.0"
+  }
+}
