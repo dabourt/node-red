@@ -1,0 +1,357 @@
+[
+    {
+        "id": "82dcc1e4.e015c",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "4032a643.b93ce8",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "cf18c2a7.8db02",
+        "type": "mqtt-broker",
+        "name": "emrgancy_broker",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "747d060d.8e3a38",
+        "type": "ui_group",
+        "name": "EarthQuake Detector",
+        "tab": "60553d3f.4e0e04",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "890764b0.c960e8",
+        "type": "ui_group",
+        "name": "Fire Sensor",
+        "tab": "60553d3f.4e0e04",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1a2b3c4d.5e6f78",
+        "type": "ui_group",
+        "name": "Event Log",
+        "tab": "60553d3f.4e0e04",
+        "order": 3,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "60553d3f.4e0e04",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "318072d3.0512ce",
+        "type": "mqtt in",
+        "z": "82dcc1e4.e015c",
+        "name": "",
+        "topic": "earthquake/status",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "cf18c2a7.8db02",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 290,
+        "y": 160,
+        "wires": [
+            [
+                "2fccb139.f0ea9e"
+            ]
+        ]
+    },
+    {
+        "id": "2fccb139.f0ea9e",
+        "type": "function",
+        "z": "82dcc1e4.e015c",
+        "name": "",
+        "func": "let status = msg.payload.toString();\nlet summary = status;\nlet log = false;\n\nif (status.includes(\"Earthquake detected!\")) {\n    msg.status = \"Earthquake ALERT\";\n    msg.color = \"red\";\n    summary = \"Earthquake detected!\";\n    log = true;\n} else if (status.includes(\"No Earthquake!\")) {\n    msg.status = \"Earthquake OK\";\n    msg.color = \"green\";\n    summary = \"No earthquake.\";\n} else if (status.includes(\"Fire detected!\")) {\n    msg.status = \"Fire ALERT\";\n    msg.color = \"red\";\n    summary = \"Fire detected!\";\n    log = true;\n} else if (status.includes(\"No Fire!\")) {\n    msg.status = \"Fire OK\";\n    msg.color = \"green\";\n    summary = \"No fire.\";\n} else {\n    msg.status = \"Unknown status\";\n    msg.color = \"gray\";\n    summary = status;\n}\n\nmsg.summary = summary;\nmsg.log = log;\nmsg.eventType = (msg.status && msg.status.indexOf('Earthquake') !== -1) ? 'Earthquake' : (msg.status && msg.status.indexOf('Fire') !== -1) ? 'Fire' : 'General';\n\nlet allLogs = global.get('allLogs') || [];\nif (msg.log && msg.eventType !== 'General') {\n    allLogs.unshift({\n        time: (new Date()).toLocaleString(),\n        sensor: msg.eventType,\n        status: msg.status,\n        summary: msg.summary\n    });\n    if (allLogs.length > 100) { allLogs.length = 100; }\n    global.set('allLogs', allLogs);\n}\nmsg.allLogs = allLogs;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 160,
+        "wires": [
+            [
+                "b8b5794e.3ab598",
+                "ec88f9a0.e4b728",
+                "f0ff1e2d.3c4b5a"
+            ]
+        ]
+    },
+    {
+        "id": "b8b5794e.3ab598",
+        "type": "ui_template",
+        "z": "82dcc1e4.e015c",
+        "group": "747d060d.8e3a38",
+        "name": "earthquake_templete",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "format": "<div class=\"status-card\">\n    <div class=\"status-header\">\n        <div class=\"status-icon\" style=\"background: {{msg.color}}; box-shadow: 0 0 22px rgba(0,0,0,0.12);\"></div>\n        <span class=\"status-led\" ng-class=\"{active: ledBlink}\"></span>\n        <div>\n            <div class=\"status-label\">Live status</div>\n            <div class=\"status-title\">{{msg.status}}</div>\n        </div>\n    </div>\n    <div class=\"status-summary\">{{msg.summary}}</div>\n    <div class=\"status-footer\">\n        <span class=\"status-chip\" style=\"background: {{msg.color}}22; color: {{msg.color}}; border: 1px solid {{msg.color}};\">Realtime</span>\n        <span class=\"status-note\">Updated automatically</span>\n    </div>\n</div>\n<div class=\"inner-log-card\">\n    <div class=\"inner-log-header\">\n        <div>\n            <div class=\"inner-log-title\">Earthquake log</div>\n            <div class=\"inner-log-subtitle\">Latest alerts for the earthquake sensor</div>\n        </div>\n        <button class=\"inner-log-clear\" ng-click=\"clearEarthquakeLog()\">Clear</button>\n    </div>\n    <div class=\"inner-log-list\" ng-if=\"eqLogs.length\">\n        <div class=\"inner-log-item\" ng-repeat=\"entry in eqLogs\">\n            <span class=\"inner-log-tag\">Alert</span>\n            <div class=\"inner-log-summary\">{{entry.summary}}</div>\n            <div class=\"inner-log-time\">{{entry.time}}</div>\n        </div>\n    </div>\n    <div class=\"inner-log-empty\" ng-if=\"!eqLogs.length\">No earthquake alerts yet.</div>\n</div>\n<script>\n(function(scope) {\n    scope.eqLogs = scope.eqLogs || [];\n    scope.ledBlink = false;\n    scope.clearEarthquakeLog = function() { scope.eqLogs = []; };\n    function blinkEarthquakeLed() {\n        scope.ledBlink = true;\n        if (!scope.$$phase) { scope.$apply(); }\n        setTimeout(function() {\n            scope.ledBlink = false;\n            if (!scope.$$phase) { scope.$apply(); }\n        }, 600);\n    }\n    scope.$watch('msg', function(msg) {\n        if (!msg) return;\n        blinkEarthquakeLed();\n        if (!msg.log || msg.eventType !== 'Earthquake') return;\n        scope.eqLogs.unshift({\n            time: (new Date()).toLocaleTimeString(),\n            summary: msg.summary || 'Earthquake detected!'\n        });\n        if (scope.eqLogs.length > 5) { scope.eqLogs.pop(); }\n    });\n})(scope);\n</script>\n<style>\n.status-card{font-family:Arial,Helvetica,sans-serif;text-align:left;padding:16px 18px;border-radius:18px;background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(245,245,255,0.96));box-shadow: 0 18px 35px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.06);}\n.status-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;}\n.status-icon{width:44px;height:44px;border-radius:50%;border:2px solid #fff;}\n.status-led{width:12px;height:12px;border-radius:50%;background:#ccc;border:1px solid rgba(0,0,0,0.08);box-shadow: inset 0 0 0 rgba(255,255,255,0.6);transition: transform 0.2s ease, background 0.2s ease;}\n.status-led.active{background:#ff3b30;box-shadow: 0 0 12px rgba(255,59,48,0.6);transform: scale(1.15);animation: blinkPulse 0.6s ease-in-out;}\n@keyframes blinkPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.25);opacity:0.65;}}\n.status-label{font-size:11px;text-transform:uppercase;color:#888;letter-spacing:0.12em;margin-bottom:4px;}\n.status-title{font-size:20px;font-weight:700;color:#222;margin:0;}\n.status-summary{font-size:14px;color:#525252;line-height:1.7;padding-left:2px;}\n.status-footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:14px;flex-wrap:wrap;}\n.status-chip{display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;}\n.status-note{font-size:12px;color:#777;}\n.inner-log-card{margin-top:16px;padding:16px;border-radius:18px;background:#ffffff;border:1px solid rgba(0,0,0,0.06);box-shadow:0 12px 24px rgba(0,0,0,0.05);}\n.inner-log-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}\n.inner-log-title{font-size:15px;font-weight:700;color:#222;}\n.inner-log-subtitle{font-size:12px;color:#666;}\n.inner-log-clear{padding:8px 16px;border:none;border-radius:999px;background:#0094CE;color:#fff;font-weight:700;cursor:pointer;}\n.inner-log-list{display:grid;gap:10px;}\n.inner-log-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:12px 14px;border-radius:14px;background:#f5f9ff;border:1px solid rgba(0,148,206,0.16);}\n.inner-log-tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#ffe7e7;color:#b53d3d;font-size:12px;font-weight:700;}\n.inner-log-summary{font-size:13px;color:#333;line-height:1.4;}\n.inner-log-time{font-size:11px;color:#777;white-space:nowrap;}\n.inner-log-empty{font-size:13px;color:#777;padding:18px 0;text-align:center;}\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 720,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "245ffb67.289104",
+        "type": "mqtt in",
+        "z": "82dcc1e4.e015c",
+        "name": "",
+        "topic": "fire/status",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "cf18c2a7.8db02",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 260,
+        "y": 240,
+        "wires": [
+            [
+                "7d212bc4.1aadf4"
+            ]
+        ]
+    },
+    {
+        "id": "7d212bc4.1aadf4",
+        "type": "function",
+        "z": "82dcc1e4.e015c",
+        "name": "",
+        "func": "let status = msg.payload.toString();\nlet summary = status;\nlet log = false;\n\nif (status.includes(\"Earthquake detected!\")) {\n    msg.status = \"Earthquake ALERT\";\n    msg.color = \"red\";\n    summary = \"Earthquake detected!\";\n    log = true;\n} else if (status.includes(\"No Earthquake!\")) {\n    msg.status = \"Earthquake OK\";\n    msg.color = \"green\";\n    summary = \"No earthquake.\";\n} else if (status.includes(\"Fire detected!\")) {\n    msg.status = \"Fire ALERT\";\n    msg.color = \"red\";\n    summary = \"Fire detected!\";\n    log = true;\n} else if (status.includes(\"No Fire!\")) {\n    msg.status = \"Fire OK\";\n    msg.color = \"green\";\n    summary = \"No fire.\";\n} else {\n    msg.status = \"Unknown status\";\n    msg.color = \"gray\";\n    summary = status;\n}\n\nmsg.summary = summary;\nmsg.log = log;\nmsg.eventType = (msg.status && msg.status.indexOf('Earthquake') !== -1) ? 'Earthquake' : (msg.status && msg.status.indexOf('Fire') !== -1) ? 'Fire' : 'General';\n\nlet allLogs = global.get('allLogs') || [];\nif (msg.log && msg.eventType !== 'General') {\n    allLogs.unshift({\n        time: (new Date()).toLocaleString(),\n        sensor: msg.eventType,\n        status: msg.status,\n        summary: msg.summary\n    });\n    if (allLogs.length > 100) { allLogs.length = 100; }\n    global.set('allLogs', allLogs);\n}\nmsg.allLogs = allLogs;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 240,
+        "wires": [
+            [
+                "d00ac713.186b58",
+                "8d1d25da.484318",
+                "f0ff1e2d.3c4b5a"
+            ]
+        ]
+    },
+    {
+        "id": "d00ac713.186b58",
+        "type": "ui_template",
+        "z": "82dcc1e4.e015c",
+        "group": "890764b0.c960e8",
+        "name": "fire_templete",
+        "order": 1,
+        "width": "6",
+        "height": "7",
+        "format": "<div class=\"status-card\">\n    <div class=\"status-header\">\n        <div class=\"status-icon\" style=\"background: {{msg.color}}; box-shadow: 0 0 22px rgba(0,0,0,0.12);\"></div>\n        <span class=\"status-led\" ng-class=\"{active: ledBlink}\"></span>\n        <div>\n            <div class=\"status-label\">Live status</div>\n            <div class=\"status-title\">{{msg.status}}</div>\n        </div>\n    </div>\n    <div class=\"status-summary\">{{msg.summary}}</div>\n    <div class=\"status-footer\">\n        <span class=\"status-chip\" style=\"background: {{msg.color}}22; color: {{msg.color}}; border: 1px solid {{msg.color}};\">Realtime</span>\n        <span class=\"status-note\">Updated automatically</span>\n    </div>\n</div>\n<div class=\"inner-log-card\">\n    <div class=\"inner-log-header\">\n        <div>\n            <div class=\"inner-log-title\">Fire log</div>\n            <div class=\"inner-log-subtitle\">Latest alerts for the fire sensor</div>\n        </div>\n        <button class=\"inner-log-clear\" ng-click=\"clearFireLog()\">Clear</button>\n    </div>\n    <div class=\"inner-log-list\" ng-if=\"fireLogs.length\">\n        <div class=\"inner-log-item\" ng-repeat=\"entry in fireLogs\">\n            <span class=\"inner-log-tag\">Alert</span>\n            <div class=\"inner-log-summary\">{{entry.summary}}</div>\n            <div class=\"inner-log-time\">{{entry.time}}</div>\n        </div>\n    </div>\n    <div class=\"inner-log-empty\" ng-if=\"!fireLogs.length\">No fire alerts yet.</div>\n</div>\n<script>\n(function(scope) {\n    scope.fireLogs = scope.fireLogs || [];\n    scope.ledBlink = false;\n    scope.clearFireLog = function() { scope.fireLogs = []; };\n    function blinkFireLed() {\n        scope.ledBlink = true;\n        if (!scope.$$phase) { scope.$apply(); }\n        setTimeout(function() {\n            scope.ledBlink = false;\n            if (!scope.$$phase) { scope.$apply(); }\n        }, 600);\n    }\n    scope.$watch('msg', function(msg) {\n        if (!msg) return;\n        blinkFireLed();\n        if (!msg.log || msg.eventType !== 'Fire') return;\n        scope.fireLogs.unshift({\n            time: (new Date()).toLocaleTimeString(),\n            summary: msg.summary || 'Fire detected!'\n        });\n        if (scope.fireLogs.length > 5) { scope.fireLogs.pop(); }\n    });\n})(scope);\n</script>\n<style>\n.status-card{font-family:Arial,Helvetica,sans-serif;text-align:left;padding:16px 18px;border-radius:18px;background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(245,245,255,0.96));box-shadow: 0 18px 35px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.06);}\n.status-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;}\n.status-icon{width:44px;height:44px;border-radius:50%;border:2px solid #fff;}\n.status-led{width:12px;height:12px;border-radius:50%;background:#ccc;border:1px solid rgba(0,0,0,0.08);box-shadow: inset 0 0 0 rgba(255,255,255,0.6);transition: transform 0.2s ease, background 0.2s ease;}\n.status-led.active{background:#ff3b30;box-shadow: 0 0 12px rgba(255,59,48,0.6);transform: scale(1.15);animation: blinkPulse 0.6s ease-in-out;}\n@keyframes blinkPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.25);opacity:0.65;}}\n.status-label{font-size:11px;text-transform:uppercase;color:#888;letter-spacing:0.12em;margin-bottom:4px;}\n.status-title{font-size:20px;font-weight:700;color:#222;margin:0;}\n.status-summary{font-size:14px;color:#525252;line-height:1.7;padding-left:2px;}\n.status-footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:14px;flex-wrap:wrap;}\n.status-chip{display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;}\n.status-note{font-size:12px;color:#777;}\n.inner-log-card{margin-top:16px;padding:16px;border-radius:18px;background:#ffffff;border:1px solid rgba(0,0,0,0.06);box-shadow:0 12px 24px rgba(0,0,0,0.05);}\n.inner-log-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}\n.inner-log-title{font-size:15px;font-weight:700;color:#222;}\n.inner-log-subtitle{font-size:12px;color:#666;}\n.inner-log-clear{padding:8px 16px;border:none;border-radius:999px;background:#0094CE;color:#fff;font-weight:700;cursor:pointer;}\n.inner-log-list{display:grid;gap:10px;}\n.inner-log-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:12px 14px;border-radius:14px;background:#f5f9ff;border:1px solid rgba(0,148,206,0.16);}\n.inner-log-tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#ffe7e7;color:#b53d3d;font-size:12px;font-weight:700;}\n.inner-log-summary{font-size:13px;color:#333;line-height:1.4;}\n.inner-log-time{font-size:11px;color:#777;white-space:nowrap;}\n.inner-log-empty{font-size:13px;color:#777;padding:18px 0;text-align:center;}\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 690,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8d1d25da.484318",
+        "type": "ui_template",
+        "z": "82dcc1e4.e015c",
+        "group": "747d060d.8e3a38",
+        "name": "sound alart",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n(function(scope) {\n    function playAlert() {\n        var AudioContext = window.AudioContext || window.webkitAudioContext;\n        if (!AudioContext) return;\n        var ctx = new AudioContext();\n        var osc = ctx.createOscillator();\n        var gain = ctx.createGain();\n        osc.type = 'sine';\n        osc.frequency.setValueAtTime(880, ctx.currentTime);\n        gain.gain.setValueAtTime(0.1, ctx.currentTime);\n        osc.connect(gain);\n        gain.connect(ctx.destination);\n        osc.start();\n        osc.stop(ctx.currentTime + 2.0);\n    }\n    scope.$watch('msg', function(msg) {\n        if (msg && msg.summary === 'Fire detected!') {\n            playAlert();\n        }\n    });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 690,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec88f9a0.e4b728",
+        "type": "ui_template",
+        "z": "82dcc1e4.e015c",
+        "group": "747d060d.8e3a38",
+        "name": "sound alart",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n(function(scope) {\n    function playAlert() {\n        var AudioContext = window.AudioContext || window.webkitAudioContext;\n        if (!AudioContext) return;\n        var ctx = new AudioContext();\n        var osc = ctx.createOscillator();\n        var gain = ctx.createGain();\n        osc.type = 'sine';\n        osc.frequency.setValueAtTime(880, ctx.currentTime);\n        gain.gain.setValueAtTime(0.1, ctx.currentTime);\n        osc.connect(gain);\n        gain.connect(ctx.destination);\n        osc.start();\n        osc.stop(ctx.currentTime + 2.0);\n    }\n    scope.$watch('msg', function(msg) {\n        if (msg && msg.summary === 'Earthquake detected!') {\n            playAlert();\n        }\n    });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 690,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f0ff1e2d.3c4b5a",
+        "type": "ui_template",
+        "z": "82dcc1e4.e015c",
+        "group": "1a2b3c4d.5e6f78",
+        "name": "shared_event_log",
+        "order": 0,
+        "width": "6",
+        "height": "7",
+        "format": "<div class=\"status-card\">\n    <div class=\"status-header\">\n        <div>\n            <div class=\"status-label\">Shared event log</div>\n            <div class=\"status-title\">All alerts saved for everyone</div>\n        </div>\n    </div>\n    <div class=\"inner-log-header\">\n        <div>\n            <div class=\"inner-log-title\">Saved events</div>\n            <div class=\"inner-log-subtitle\">Shared across all dashboard users</div>\n        </div>\n    </div>\n    <div class=\"inner-log-list\" ng-if=\"sharedLogs.length\">\n        <div class=\"inner-log-item\" ng-repeat=\"entry in sharedLogs\">\n            <span class=\"inner-log-tag\">{{entry.sensor}}</span>\n            <div class=\"inner-log-body\">\n                <div class=\"inner-log-summary\">{{entry.summary}}</div>\n                <div class=\"inner-log-time\">{{entry.time}}</div>\n            </div>\n        </div>\n    </div>\n    <div class=\"inner-log-empty\" ng-if=\"!sharedLogs.length\">No shared logs yet.</div>\n</div>\n<script>\n(function(scope) {\n    scope.sharedLogs = scope.sharedLogs || [];\n    scope.$watch('msg', function(msg) {\n        if (!msg) return;\n        scope.sharedLogs = msg.allLogs || scope.sharedLogs || [];\n    });\n})(scope);\n</script>\n<style>\n.status-card{font-family:Arial,Helvetica,sans-serif;text-align:left;padding:16px 18px;border-radius:18px;background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(245,245,255,0.96));box-shadow: 0 18px 35px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.06);}\n.status-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;}\n.status-label{font-size:11px;text-transform:uppercase;color:#888;letter-spacing:0.12em;margin-bottom:4px;}\n.status-title{font-size:18px;font-weight:700;color:#222;margin:0;}\n.inner-log-header{margin-bottom:14px;}\n.inner-log-title{font-size:15px;font-weight:700;color:#222;}\n.inner-log-subtitle{font-size:12px;color:#666;}\n.inner-log-list{display:grid;gap:10px;}\n.inner-log-item{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:12px 14px;border-radius:14px;background:#fdf8f0;border:1px solid rgba(255,126,0,0.18);}\n.inner-log-tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#fff4e5;color:#b96f1b;font-size:12px;font-weight:700;}\n.inner-log-summary{font-size:13px;color:#333;line-height:1.4;}\n.inner-log-time{font-size:11px;color:#777;white-space:nowrap;}\n.inner-log-empty{font-size:13px;color:#777;padding:18px 0;text-align:center;}\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 700,
+        "y": 380,
+        "wires": []
+    }
+]
