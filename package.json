@@ -1,11 +1,12 @@
 {
-  "name": "node-red-railway",
+  "name": "node-red-dashboard-flow",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node start.js"
+    "start": "node-red -u ."
   },
   "dependencies": {
-    "node-red": "^4.1.7",
-    "@flowfuse/node-red-dashboard": "^1.23.0"
+    "node-red": "^4.0.9",
+    "node-red-dashboard": "^3.6.6"
   }
 }
